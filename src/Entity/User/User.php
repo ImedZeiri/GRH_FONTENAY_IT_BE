@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=App\Repository\User\UserRepository::class)
- * @ORM\Table(name="`user`")
+ * @ORM\Table(name="`userr`")
  * @ApiResource(formats={"jsonld"})
  * @ApiFilter(SearchFilter::class, properties={"email": "ipartial"})
  */
