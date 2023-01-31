@@ -13,7 +13,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass=DepartmentRepository::class)
- * @ApiResource(formats={"jsonld"})
+ * @ApiResource()
  * @ApiFilter(SearchFilter::class, properties={"name": "ipartial"})
  */
 class Department
