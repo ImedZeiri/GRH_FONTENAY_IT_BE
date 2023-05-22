@@ -10,9 +10,11 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
-/**
- * @ORM\Entity(repositoryClass=CompanyRepository::class)
- * @ApiResource(formats={"jsonld"})
+
+ /**
+ * @ORM\Entity(repositoryClass=App\Repository\Company\CompanyRepository::class)
+ * @ORM\Table(name="`company`")
+ * @ApiResource()
  * @ApiFilter(SearchFilter::class, properties={"name": "ipartial"})
  */
 class Company
