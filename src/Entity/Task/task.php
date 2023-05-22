@@ -41,6 +41,26 @@ class task
      */
     private $member_id;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $start_at;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $end_At;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $complexity;
+
     public function __construct()
     {
         $this->task_skill_id = new ArrayCollection();
@@ -114,6 +134,54 @@ class task
     public function removeMemberId(projectMembers $memberId): self
     {
         $this->member_id->removeElement($memberId);
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getStartAt(): ?\DateTimeInterface
+    {
+        return $this->start_at;
+    }
+
+    public function setStartAt(\DateTimeInterface $start_at): self
+    {
+        $this->start_at = $start_at;
+
+        return $this;
+    }
+
+    public function getEndAt(): ?\DateTimeInterface
+    {
+        return $this->end_At;
+    }
+
+    public function setEndAt(\DateTimeInterface $end_At): self
+    {
+        $this->end_At = $end_At;
+
+        return $this;
+    }
+
+    public function getComplexity(): ?int
+    {
+        return $this->complexity;
+    }
+
+    public function setComplexity(int $complexity): self
+    {
+        $this->complexity = $complexity;
 
         return $this;
     }

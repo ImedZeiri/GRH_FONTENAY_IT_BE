@@ -5,6 +5,8 @@ namespace App\Entity\Project;
 use App\Entity\Company\Company;
 use App\Entity\User\User;
 use App\Repository\Project\ClientRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
@@ -39,6 +41,16 @@ class Client
      * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
      */
     private $user_id;
+
+    /**
+     * @ORM\OneToMany(targetEntity=project::class, mappedBy="client")
+     */
+    private $projects;
+
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -77,6 +89,36 @@ class Client
     public function setUserId(?User $user_id): self
     {
         $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, project>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
+            $project->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(project $project): self
+    {
+        if ($this->projects->removeElement($project)) {
+            // set the owning side to null (unless already changed)
+            if ($project->getClient() === $this) {
+                $project->setClient(null);
+            }
+        }
 
         return $this;
     }

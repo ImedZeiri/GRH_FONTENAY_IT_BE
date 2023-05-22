@@ -47,6 +47,31 @@ class project
      */
     private $missions;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="projects")
+     */
+    private $client;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $start_at;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private $end_at;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $field;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -157,6 +182,66 @@ class project
                 $mission->setProjectId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getStartAt(): ?\DateTimeImmutable
+    {
+        return $this->start_at;
+    }
+
+    public function setStartAt(\DateTimeImmutable $start_at): self
+    {
+        $this->start_at = $start_at;
+
+        return $this;
+    }
+
+    public function getEndAt(): ?\DateTimeImmutable
+    {
+        return $this->end_at;
+    }
+
+    public function setEndAt(\DateTimeImmutable $end_at): self
+    {
+        $this->end_at = $end_at;
+
+        return $this;
+    }
+
+    public function getField(): ?string
+    {
+        return $this->field;
+    }
+
+    public function setField(string $field): self
+    {
+        $this->field = $field;
 
         return $this;
     }
