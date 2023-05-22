@@ -4,6 +4,8 @@ namespace App\Entity\User;
 
 use App\Entity\Company\CompanyAssociate;
 use App\Entity\Company\Department;
+use App\Entity\Project\project;
+use App\Entity\Task\userSkills;
 use App\Entity\User\UserRights;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -138,10 +140,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $companyAssociate;
 
+    /**
+     * @ORM\OneToMany(targetEntity=project::class, mappedBy="owner")
+     */
+    private $projects;
+
+    /**
+     * @ORM\OneToMany(targetEntity=userSkills::class, mappedBy="user")
+     */
+    private $user_skills_id;
+
     public function __construct()
     {
         $this->userRights = new ArrayCollection();
         $this->departments = new ArrayCollection();
+        $this->projects = new ArrayCollection();
+        $this->user_skills_id = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -433,5 +447,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, project>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
+            $project->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(project $project): self
+    {
+        if ($this->projects->removeElement($project)) {
+            // set the owning side to null (unless already changed)
+            if ($project->getOwner() === $this) {
+                $project->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, userSkills>
+     */
+    public function getUserSkillsId(): Collection
+    {
+        return $this->user_skills_id;
+    }
+
+    public function addUserSkillsId(userSkills $userSkillsId): self
+    {
+        if (!$this->user_skills_id->contains($userSkillsId)) {
+            $this->user_skills_id[] = $userSkillsId;
+            $userSkillsId->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserSkillsId(userSkills $userSkillsId): self
+    {
+        if ($this->user_skills_id->removeElement($userSkillsId)) {
+            // set the owning side to null (unless already changed)
+            if ($userSkillsId->getUser() === $this) {
+                $userSkillsId->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

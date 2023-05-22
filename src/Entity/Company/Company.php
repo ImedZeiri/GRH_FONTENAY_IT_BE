@@ -2,6 +2,7 @@
 
 namespace App\Entity\Company;
 
+use App\Entity\Project\mission;
 use App\Repository\Company\CompanyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -86,10 +87,16 @@ class Company
      */
     private $companyAssociates;
 
+    /**
+     * @ORM\OneToMany(targetEntity=mission::class, mappedBy="current_company_id")
+     */
+    private $missions;
+
     public function __construct()
     {
         $this->departments = new ArrayCollection();
         $this->companyAssociates = new ArrayCollection();
+        $this->missions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -271,6 +278,36 @@ class Company
             // set the owning side to null (unless already changed)
             if ($companyAssociate->getCompanyId() === $this) {
                 $companyAssociate->setCompanyId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, mission>
+     */
+    public function getMissions(): Collection
+    {
+        return $this->missions;
+    }
+
+    public function addMission(mission $mission): self
+    {
+        if (!$this->missions->contains($mission)) {
+            $this->missions[] = $mission;
+            $mission->setCurrentCompanyId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMission(mission $mission): self
+    {
+        if ($this->missions->removeElement($mission)) {
+            // set the owning side to null (unless already changed)
+            if ($mission->getCurrentCompanyId() === $this) {
+                $mission->setCurrentCompanyId(null);
             }
         }
 
