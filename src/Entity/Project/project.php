@@ -12,7 +12,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
-
 /**
  * @ORM\Entity(repositoryClass=projectRepository::class)
  * @ApiResource()

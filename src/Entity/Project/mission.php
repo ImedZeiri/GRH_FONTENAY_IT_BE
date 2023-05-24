@@ -25,7 +25,7 @@ class mission
     private $id;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $loaning_duration;
 

@@ -61,6 +61,11 @@ class task
      */
     private $complexity;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $state;
+
     public function __construct()
     {
         $this->task_skill_id = new ArrayCollection();
@@ -182,6 +187,18 @@ class task
     public function setComplexity(int $complexity): self
     {
         $this->complexity = $complexity;
+
+        return $this;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }
